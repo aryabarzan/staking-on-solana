@@ -25,18 +25,17 @@ describe("staking-on-solana", () => {
   let poolUsdcAccount: Account;
   let stakerUsdcAccount: Account;
   let poolAccount: web3.Keypair;
-  let wallet: Wallet;
 
   // Configure the client to use the local cluster.
   const provider = AnchorProvider.env();
   setProvider(provider);
 
+  // @ts-ignore
+  let wallet = getProvider().wallet;
+
   const program = workspace.StakingOnSolana as Program<StakingOnSolana>;
 
   before(async () => {
-    // @ts-ignore
-    wallet = getProvider().wallet;
-
     // Create a new mint for mock USDC
     usdcMint = await createMint(
       provider.connection,
