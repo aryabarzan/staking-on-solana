@@ -35,13 +35,13 @@ describe("staking-on-solana", () => {
 
   before(async () => {
     // @ts-ignore
-    wallet = getProvider().wallet as Wallet;
+    wallet = getProvider().wallet;
 
     // Create a new mint for mock USDC
     usdcMint = await createMint(
       provider.connection,
       wallet.payer,
-      provider.wallet.publicKey,
+      wallet.publicKey,
       null,
       6, // Assuming 6 decimal places for USDC
       undefined,
@@ -62,7 +62,7 @@ describe("staking-on-solana", () => {
       provider.connection,
       wallet.payer,
       usdcMint,
-      provider.wallet.publicKey
+      wallet.publicKey
     );
 
     // Mint some mock USDC to the staker's account
@@ -71,7 +71,7 @@ describe("staking-on-solana", () => {
       wallet.payer,
       usdcMint,
       stakerUsdcAccount.address,
-      provider.wallet.publicKey,
+      wallet.publicKey,
       BigInt(20000000) // 20 tokens of mock USDC
     );
     console.log("mint tx:", signature);
@@ -109,7 +109,7 @@ describe("staking-on-solana", () => {
     await program.methods
       .stakeToken(stakeAmount)
       .accounts({
-        staker: provider.wallet.publicKey,
+        staker: wallet.publicKey,
         stakerTokenAccount: stakerUsdcAccount.address,
         poolTokenAccount: poolUsdcAccount.address,
         pool: poolAccount.publicKey,
